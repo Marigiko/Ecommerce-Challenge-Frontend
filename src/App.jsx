@@ -1,58 +1,62 @@
-import { useState } from "react";
-import Home from "./pages/Home";
-import Cart from "./pages/Cart";
-import Login from "./pages/Login";
-import Profile from "./pages/Profile";
-import useCart from "./hooks/useCart";
-import Navbar from "./components/NavBar";
+import Navbar from "./layout/Navbar"
 
-export default function App() {
+import Login from "./modules/auth/Login"
+import Register from "./modules/auth/Register"
 
-    const [view, setView] = useState("home");
+import User from "./modules/user/User"
+import Profile from "./modules/user/Profile"
 
-    const {
-        cart,
-        addToCart,
-        removeFromCart,
-        clearCart,
-        itemCount
-    } = useCart();
+import Role from "./modules/role/Role"
 
-    const [user, setUser] = useState(null);
+import CreateProduct from "./modules/product/CreateProduct"
+import UpdateProduct from "./modules/product/UpdateProduct"
+import ActivateProduct from "./modules/product/ActivateProduct"
+import DeleteProduct from "./modules/product/DeleteProduct"
+import GetProduct from "./modules/product/GetProduct"
+
+import Section from "./components/Section"
+import Card from "./components/Card"
+
+function App() {
 
     return (
 
-        <div className="min-h-screen bg-gray-50">
+        <div className="bg-gray-100 min-h-screen">
 
-            <Navbar
-                cartCount={itemCount}
-                user={user}
-                onNavigate={setView}
-                onLogout={() => setUser(null)}
-            />
+            <Navbar />
 
-            {view === "home" && (
-                <Home addToCart={addToCart} />
-            )}
+            <div className="p-8 space-y-10">
 
-            {view === "cart" && (
-                <Cart
-                    cart={cart}
-                    user={user}
-                    clearCart={clearCart}
-                    removeFromCart={removeFromCart}
-                />
-            )}
+                <Section title="Auth">
+                    <Login />
+                    <Register />
+                </Section>
 
-            {view === "login" && (
-                <Login setUser={setUser} />
-            )}
+                <Section title="Users">
+                    <User />
+                    <Profile />
+                    <Role />
+                </Section>
 
-            {view === "profile" && (
-                <Profile user={user} />
-            )}
+                <Section title="Products">
+                    <CreateProduct />
+                    <UpdateProduct />
+                    <Card
+                        title="Product Actions"
+                        className="flex flex-col justify-between"
+                    >
+                        <ActivateProduct />
+                        <DeleteProduct />
+                        <GetProduct />
+                    </Card>
+                </Section>
 
-        </div>
+            </div>
 
-    );
+        </div >
+
+    )
+
 }
+
+export default App
